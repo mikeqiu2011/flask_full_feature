@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect
+from flask import render_template, url_for, flash, redirect, request
 from flaskblog import app, db, bcrypt
 from flaskblog.forms import RegistrationForm, LoginForm
 from flaskblog.models import User
@@ -61,6 +61,10 @@ def login():
                                                form.password.data):
             login_user(user, remember=form.remember.data)
             flash('You have been logged in!', 'success')
+            next_page = request.args.get('next')  # redirect to previously
+            # requested page if exists
+            if next_page:
+                return redirect(next_page)
             return redirect(url_for('home'))
         else:
             flash('Login Unsuccessful. Please check email and password',
