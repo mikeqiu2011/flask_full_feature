@@ -1,0 +1,45 @@
+flask --app=flaskblog shell
+
+# create tables
+db.create_all()
+
+# add some data
+user_1 = User(username='mike', email='mike@1.com', password='123')
+db.session.add(user_1)
+user_2 = User(username='eric', email='eric@2.com', password='456')
+db.session.add(user_2)
+db.session.commit()
+
+# query
+User.query.all()
+User.query.first()
+User.query.filter_by(username='eric').all()
+
+user = User.query.filter_by(username='eric').first()
+user
+user.id
+
+user = User.query.get(2)
+user
+user.posts
+
+
+# create some posts
+post_1 = Post(title='Blog 1', content='First post content!', user_id=user.id)
+post_2 = Post(title='Blog 2', content='Second post content!', user_id=user.id)
+db.session.add(post_1)
+db.session.add(post_2)
+db.session.commit()
+
+for post in user.posts:
+    print(post.title)
+
+
+# backref
+post = Post.query.first()
+post.author
+
+# clean all data and tables
+db.drop_all()
+
+
