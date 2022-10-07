@@ -1,7 +1,7 @@
 # full featured website using flask
 
 ## run
-    python flaskblog.py
+    python run.py
 
 ## flask-sqlalchemy
     1. the "backref" is to create a ref for child obj to ref to parent
