@@ -33,15 +33,19 @@ def about():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(
-            form.password.data).decode('utf-8')
-        user = User(username=form.username.data,
-                    email=form.email.data,
-                    password=hashed_password)
-        db.session.add(user)
-        db.session.commit()
-        flash(f'Account created! you are now able to login', 'success')
-        return redirect(url_for('login'))
+        user = User.query.filter_by(email=form.email.data).first()
+        if not user:
+            hashed_password = bcrypt.generate_password_hash(
+                form.password.data).decode('utf-8')
+            user = User(username=form.username.data,
+                        email=form.email.data,
+                        password=hashed_password)
+            db.session.add(user)
+            db.session.commit()
+            flash(f'Account created! you are now able to login', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash(f'email {form.email.data} already exists!', 'danger')
     return render_template('register.html', title='Register', form=form)
 
 
