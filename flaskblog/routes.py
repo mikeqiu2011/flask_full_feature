@@ -150,9 +150,9 @@ def update_post(post_id):
         db.session.commit()
         flash('post updated!', 'success')
         return redirect(url_for('post', post_id=post.id))
-
-    form.title.data = post.title
-    form.content.data = post.content
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content
 
     return render_template('create_post.html',
                            title='Update Post',
