@@ -1,10 +1,12 @@
+from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from flask_wtf.file import FileField, FileAllowed
+from flask_wtf.file import FileAllowed
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, \
+    FileField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, \
     ValidationError
+
 from flaskblog.models import User
-from flask_login import current_user
 
 
 class RegistrationForm(FlaskForm):
@@ -59,12 +61,3 @@ class UpdateAccountForm(FlaskForm):
                 raise ValidationError(
                     'email already exists! pls choose another '
                     'one')
-
-
-class PostForm(FlaskForm):
-    title = StringField('Title',
-                        validators=[DataRequired(), Length(max=20)])
-    content = TextAreaField('content',
-                          validators=[DataRequired()])
-
-    submit = SubmitField('post')
